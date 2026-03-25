@@ -49,3 +49,6 @@ create table addresses (
     street_name varchar(100) not null,
     door_number tinyint unsigned not null
 );
+
+-- Írjuk felül azokat a tulajdonsosokat akiknek a középső neve "A" -> "Andrew"
+update owners set middle_name = 'Andrew' where middle_name = 'A';
