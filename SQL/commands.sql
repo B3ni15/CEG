@@ -107,3 +107,19 @@ select addresses.zip_code from addresses
 join owners on owners.address = addresses.id
 join cars on cars.owner = owners.id
 where cars.brand = 'Audi' and cars.model = 'A4';
+
+-- Illeszünk be egy autót az adatbázisba
+-- Ferrari F8, tulajdonos: "John Andrew Smith"-hez tartozzon.
+-- Ne illeszük be az 1-es owner.id-t a hozzáadásban. 
+
+insert into cars (brand, model, price, owner) values (
+    'Ferrari',
+    'F8', 
+    274000.00,
+    (select id from owners where first_name = 'John' and middle_name = 'Andrew' and last_name = 'Smith')
+);
+
+-- Kinek hány autója van?
+select concat(owners.first_name, ' ', owners.last_name) as "Owner Name", count(cars.id) as "Number of Cars" from owners
+left join cars on cars.owner = owners.id
+group by owners.id;
