@@ -58,3 +58,52 @@ select * from owners where email like '%.com';
 
 -- Hány felhasználónak van .com-ra végződő email címe?
 select count(*) from owners where email like '%.com';
+
+-- Adjunk a cars táblához egy price oszlopot. (Dollárban)
+-- MIN: 1000.00 MAX: 100000.00
+alter table cars add column price decimal(10,2) not null check (price >= 1000.00 and price <= 100000.00);
+
+-- Toyota Corolla ára: 15000.00 dollár
+-- Állítsunk be árat minden autónak.
+update cars
+set price = case
+    when brand = 'Toyota' and model = 'Corolla' then 15000.00
+    when brand = 'Honda' and model = 'Civic' then 14500.00
+    when brand = 'Ford' and model = 'Focus' then 13200.00
+    when brand = 'BMW' and model = '320i' then 21900.00
+    when brand = 'Audi' and model = 'A4' then 23800.00
+    when brand = 'Mercedes' and model = 'C200' then 24900.00
+    when brand = 'Volkswagen' and model = 'Golf' then 15400.00
+    when brand = 'Hyundai' and model = 'Elantra' then 14100.00
+    when brand = 'Kia' and model = 'Ceed' then 13600.00
+    when brand = 'Nissan' and model = 'Qashqai' then 17200.00
+    else price
+end;
+
+-- Átlagosan mennyibe kerül egy autó?
+select concat("Average Price: $", round(avg(price), 2)) as "Average Price" from cars;
+
+-- Összesen mennyibe kerülnek az autók?
+select concat("Total Price: $", sum(price)) as "Total Price" from cars;
+
+-- Mennyibe kerül a lególóbb autó?
+select concat("Cheapest Car Price: $", min(price)) as "Cheapest Car Price" from cars;
+
+-- Mennyibe kerül a legdrágább autó?
+select concat("Most Expensive Car Price: $", max(price)) as "Most Expensive Car Price" from cars;
+
+-- Melyik városban lakik "Sara Farkas"?
+select addresses.city from addresses
+join owners on owners.address = addresses.id
+where owners.first_name = 'Sara' and owners.last_name = 'Farkas';
+
+-- Mennyibe kerül "Eva Varga" autója?
+select concat("Eva Varga's Car Price: $", cars.price) as "Eva Varga's Car Price" from cars
+join owners on owners.id = cars.owner
+where owners.first_name = 'Eva' and owners.last_name = 'Varga';
+
+-- Mi a zip_code-ja az AUDI A4 tulajdonosának?
+select addresses.zip_code from addresses
+join owners on owners.address = addresses.id
+join cars on cars.owner = owners.id
+where cars.brand = 'Audi' and cars.model = 'A4';
