@@ -52,3 +52,9 @@ create table addresses (
 
 -- Írjuk felül azokat a tulajdonsosokat akiknek a középső neve "A" -> "Andrew"
 update owners set middle_name = 'Andrew' where middle_name = 'A';
+
+-- Melyik felhasználónak van ".com"-ra végződő email címe?
+select * from owners where email like '%.com';
+
+-- Hány felhasználónak van .com-ra végződő email címe?
+select count(*) from owners where email like '%.com';
