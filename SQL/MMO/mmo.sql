@@ -51,3 +51,25 @@ create table if not exists character_items (
     foreign key (item) references items(id),
     foreign key (combat) references combat_info(id)
 );
+
+-- Átlagosan mennyibe kerül egy item?
+select avg(value) from items;
+
+-- Mennyibe kerül a legolcsóbb item?
+select min(value) from items;
+
+-- Melyik a legolcsóbb item?
+select name from items where value = (select min(value) from items);
+
+-- Hány item olcsóbb mint 50 gold?
+select count(*) from items where value < 50;
+
+-- Amik ólcsóbbak mint az átlag ár
+select name from ite    ms where value < (select avg(value) from items);
+
+-- Hányszor szerezték meg a "Salt - Sea" itemet?
+select count(*) from character_items where item = (select id from items where name = 'Salt - Sea');
+
+-- Melyik karakterek szerezték meg a "Salt - Sea" itemet?
+select name from characters where id in (select character from character_items where item = (select id from items where name = 'Salt - Sea'));
+
