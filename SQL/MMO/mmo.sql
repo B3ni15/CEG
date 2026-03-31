@@ -73,3 +73,17 @@ select count(*) from character_items where item = (select id from items where na
 -- Melyik karakterek szerezték meg a "Salt - Sea" itemet?
 select name from characters where id in (select character from character_items where item = (select id from items where name = 'Salt - Sea'));
 
+-- melyik játékosnak hány karaktere van?
+select accountName, count(*) as characterCount from players p join characters c on p.id = c.player group by p.id;
+
+-- melyik ellenféllel hányszor küzdöttek meg?
+select name, count(*) as combatCount from enemies e join combat_info ci on e.id = ci.enemy group by e.id;
+
+-- melyik karakter hány item-et vett fel?
+select name, count(*) as itemCount from characters c join character_items ci on c.id = ci.character group by c.id;
+
+-- melyik item-et hányszor vették fel? 
+select name, count(*) as pickupCount from items i join character_items ci on i.id = ci.item group by i.id;
+
+-- Melyik játékos hány item-et fel összesen?
+select accountName, count(*) as totalItems from players p join characters c on p.id = c.player join character_items ci on c.id = ci.character group by p.id;
