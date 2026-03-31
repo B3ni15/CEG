@@ -87,3 +87,31 @@ select name, count(*) as pickupCount from items i join character_items ci on i.i
 
 -- Melyik játékos hány item-et fel összesen?
 select accountName, count(*) as totalItems from players p join characters c on p.id = c.player join character_items ci on c.id = ci.character group by p.id;
+
+-- 1. Melyik volt az első regisztrált felhasználó?
+select accountName from players order by registrationDate limit 1;
+-- 2. Melyik karakternek van a legtöbb xp-je?
+select name from characters order by xp desc limit 1;
+-- 3. Melyik ellenfél milyen item-et dobott?
+select e.name as enemyName, i.name as itemName from enemies e join combat_info ci on e.id = ci.enemy join character_items ci2 on ci.id = ci2.combat join items i on ci2.item = i.id;
+-- 4. Melyik karakter melyik szörnyet győzte le?
+select c.name as characterName, e.name as enemyName from characters c join combat_info ci on c.id = ci.character join enemies e on ci.enemy = e.id;
+-- 5. Melyik karakter mekkora összértékű tárgyat szedett össze?
+select c.name, sum(i.value) as totalValue from characters c join character_items ci on c.id = ci.character join items i on ci.item = i.id group by c.id;
+-- 6. Melyik játékos hányszor harcolt összesen?
+select accountName, count(*) as combatCount from players p join characters c on p.id = c.player join combat_info ci on c.id = ci.character group by p.id;
+-- 7. A ".com"-ra végződő e-mail című játékosoknak hány karaktere van összesen?
+select count(*) from characters where player in (select id from players where email like '%.com');
+-- 8. Melyik játékosnak van a legtöbb xp-je összesen (Ha több van akkor többet írja ki)?
+select players.accountName, sum(characters.xp) as "összes xp" from players
+    join characters on players.id = characters.player
+    group by players.accountName
+    having sum(characters.xp) = (
+        select max(xpSum) 
+        from (
+            select sum(characters.xp) as xpSum 
+            from players
+            join characters on players.id = characters.player
+            group by players.id
+        ) as asd
+    );
