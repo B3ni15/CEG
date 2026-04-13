@@ -72,3 +72,26 @@ create table if not exists transactionsRetailers (
     foreign key (drink_id) references drinks(id)
 );
 
+-- tranactionsClients tábla (id, drinks_id, client_id, employee_id, price, transaction_date)
+create table if not exists transactionsClients (
+    id int unsigned primary key auto_increment,
+    client_id smallint unsigned not null,
+    drink_id smallint unsigned not null,
+    employee_id smallint unsigned not null,
+    price mediumint unsigned not null,
+    transaction_date date not null,
+    constraint priceValid check (price between 1 and 1000000),
+    foreign key (client_id) references clients(id),
+    foreign key (drink_id) references drinks(id),
+    foreign key (employee_id) references employees(id)
+);
+
+-- 2025. december 11-én melyik vásárlók vásároltak, melyik eladóktól? 
+select clients.name as client_name, employees.name as employee_name from transactionsClients tc join clients on tc.client_id = clients.id join employees on tc.employee_id = employees.id where tc.transaction_date = '2025-12-11';
+
+-- milyen italokat vásárolt "Bence Kovács"?
+select drinks.name from transactionsClients tc join clients on tc.client_id = clients.id join drinks on tc.drink_id = drinks.id where clients.name = 'Bence Kovács';
+
+-- Hány üveg alkoholos ital adtunk el 2025 decemberében?
+select sum(quantity) from transactionsRetailers where transaction_date between '2025-12-01' and '2025-12-31' and drink_id in (select id from drinks where is_alcoholic = 1);
+
