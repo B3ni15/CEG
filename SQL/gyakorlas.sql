@@ -95,3 +95,69 @@ select drinks.name from transactionsClients tc join clients on tc.client_id = cl
 -- Hány üveg alkoholos ital adtunk el 2025 decemberében?
 select sum(quantity) from transactionsRetailers where transaction_date between '2025-12-01' and '2025-12-31' and drink_id in (select id from drinks where is_alcoholic = 1);
 
+select count(distinct drinks.name) from drinks where drinks.is_alcoholic = true and drinks.volume <= 500;
+
+-- Alkoholmentes, maximum fél literes termékek: írjuk ki melyik italból mennyi félénk van(vol).
+select name, count(*) from drinks where is_alcoholic = false and volume <= 500 group by name;
+
+-- Számoljuk ki hogy hány alholos és hány alkoholmentes ital van?
+select is_alcoholic, count(*) from drinks group by is_alcoholic;
+
+-- Írjuk ki melyik ital (pl. COca-Cola) átlagosan mennyibe kerül? Az összes Volume árának átlaga.
+select name, avg(price) from drinks group by name;
+
+-- Írjuk ki, melyik ratailer(név) hány féle italt szállíz be.
+-- Kül,  volumr, kül ital.
+select retailer.company_name, count(distinct drinks.name) from retailers join drinks on retailers.id = drinks.retailer_id group by retailers.id;
+
+-- Tábla létrehozás discounts néven, id, description, discountMultiplier, clientDiscount(boolean)
+create table if not exists discounts (
+    id tinyint unsigned primary key,
+    description varchar(255) not null,
+    discountMultiplier decimal(3,2) not null,
+    constraint discountMultiplierValid check (discountMultiplier between 0 and 1),
+    clientDiscount boolean not null
+);
+
+alter table transactionsRetailers add column discount_id tinyint unsigned;
+alter table transactionsRetailers add constraint discountFk foreign key (discount_id) references discounts(id);
+-- Kedvezmény készítés
+insert into discounts (id, description, discountMultiplier, clientDiscount) values (1, '10% kedvezmény', 0.9, true);
+
+-- Várárlás hozzáadása
+insert into transactionsClients (client_id, drink_id, employee_id, price, transaction_date, discount_id) values (1, (select id from drinks where name = "Coca-Cola"), 1, 1000, '2025-12-11', (select id from discounts where description = "10% kedvezmény"));
+
+-- írjuk ki milyen termékeket vásároltak a summer sale 20% részeként
+select drinks.name from transactionsClients 
+join discounts on transactionsClients.discount_id = discounts.id 
+join drinks on transactionsClients.drink_id = drinks.id 
+where discounts.description = '10% kedvezmény';
+
+-- Új kedvezmény: Barna csütörtök 15% kedvezmény (retailer)
+insert into discounts (id, description, discountMultiplier, clientDiscount) values (2, 'Barna csütörtök 15% kedvezmény', 0.85, false);
+-- új vásárlás: 48db, Orange Juice(1l), 2025.szeptember 1
+insert into transactionsRetailers (retailer_id, drink_id, quantity, transaction_date, discount_id) 
+values (1, (select id from drinks where name = "Orange Juice" and volume = 1000), 48, '2025-09-01', 
+(select id from discounts where description = 'Barna csütörtök 15% kedvezmény'));
+
+-- Új kedvezmény: Usual customer 30% (client)
+insert into discounts (id, description, discountMultiplier, clientDiscount) values (3, 'Usual customer 30% kedvezmény', 0.7, true);
+-- Új vásárlás: 2db, sprite(1.5l) 2026. február 20
+insert into transactionsClients (client_id, drink_id, employee_id, price, transaction_date, discount_id) 
+values (1, (select id from drinks where name = "Sprite" and volume = 1500), 1, 2000, '2026-02-20',
+(select id from discounts where description = 'Usual customer 30% kedvezmény'));
+
+-- Opcionális feladat: az űrmértéket literben adjuk meg(számolni)
+
+-- Írjuk ki azon vásárlásokat(retailer) amik nem voltak kedvezményesek és kevesebb mint 10db terméket vásároltak.
+select retailers.company_name, drinks.name, transactionsRetailers.quantity from transactionsRetailers
+join retailers on transactionsRetailers.retailer_id = retailers.id
+join drinks on transactionsRetailers.drink_id = drinks.id
+where transactionsRetailers.discount_id is null and transactionsRetailers.quantity < 10;
+
+insert into discounts (id, description, discountMultiplier, clientDiscount) values (4, 'Black Friday 99% kedvezmény', 0.01, true);
+
+delete from discounts where description = 'Black Friday 99% kedvezmény';
+
+-- írjuk át a Black friday kedvezményt 10%-osra
+update discounts set discountMultiplier = 0.9, description = 'Black Friday 10% kedvezmény' where description = 'Black Friday 99% kedvezmény';
