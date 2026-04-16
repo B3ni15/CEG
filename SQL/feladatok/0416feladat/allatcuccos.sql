@@ -128,29 +128,29 @@ insert into purchases (ugyfel_id, allat_id, datum, fizetesi_mod) values
 -- Listázd ki azokat az állatokat, amelyeket méreladtak.
 select * from animals where eladas_datum is not null;
 -- Számold ki az állatok átlagárát akiket még nem adtak el.
-select avg(ar) as atlagar from animals where eladas_datum is null;
+select avg(ar) as atlag_ar from animals where eladas_datum is null;
 -- Keresd meg a legdrágább állatot.
 select * from animals order by ar desc limit 1;
 -- Listázd ki a vásárlásokat úgy, hogy megjelenik az ügyfél neve, az állat faja és a vásárlás dátuma.
-select c.nev as ugyfel_neve, a.faj as allat_faja, p.datum as vasarlas_datum
-from purchases p
-join customers c on p.ugyfel_id = c.id
-join animals a on p.allat_id = a.id;
+select customers.nev as ugyfel_neve, animals.faj as allat_faja, purchases.datum as vasarlas_datum
+from purchases
+join customers on purchases.ugyfel_id = customers.id
+join animals on purchases.allat_id = animals.id;
 -- Számold meg, hogy hány állat tartozik az egyes helyigény kategóriákba (amiket még nem adtunk el).
-select helyigeny, count(*) as allat_szam
+select helyigeny, count(*) as allatok_szama
 from animals
 where eladas_datum is null
 group by helyigeny;
 -- Listázd ki melyik vásárló hány állatot vásárolt.
-select c.nev as ugyfel_neve, count(*) as vasarolt_allatok_szama
-from purchases p
-join customers c on p.ugyfel_id = c.id
-group by c.id;
+select customers.nev as ugyfel_neve, count(*) as vasarolt_allatok_szama
+from purchases
+join customers on purchases.ugyfel_id = customers.id
+group by customers.id, customers.nev;
 -- Számold ki a bevételek összegét az állatok helyigénye szerint.
-select a.helyigeny, sum(a.ar) as bevetel
-from purchases p
-join animals a on p.allat_id = a.id
-group by a.helyigeny;
+select animals.helyigeny, sum(animals.ar) as bevetel_osszege
+from purchases
+join animals on purchases.allat_id = animals.id
+group by animals.helyigeny;
 -- Listázd ki, hogy fajonként hány állatot adtak el.
 select faj, count(*) as eladott_allatok_szama
 from animals
