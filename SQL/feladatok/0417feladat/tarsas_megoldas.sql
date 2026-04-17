@@ -1,11 +1,13 @@
 CREATE DATABASE IF NOT EXISTS tarsasjatek DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 USE tarsasjatek;
 
+-- tbl: palyak
 CREATE TABLE palya (
     id INT PRIMARY KEY,
     nev VARCHAR(50)
 );
 
+-- tbl: mezok
 CREATE TABLE mezo (
     palyaid INT,
     sorszam INT,
@@ -14,11 +16,26 @@ CREATE TABLE mezo (
 );
 
 -- 2. feladat: "Veszély" típusú mezők száma pályánként
-SELECT p.nev, COUNT(m.sorszam) FROM palya p JOIN mezo m ON p.id = m.palyaid 
-WHERE m.tipus = 'V' GROUP BY p.id;
+SELECT p.nev, COUNT(m.sorszam) AS veszely_db
+FROM palya p
+JOIN mezo m ON p.id = m.palyaid
+WHERE m.tipus = 'V'
+GROUP BY p.id;
 
 -- 3. feladat: A leghosszabb pálya
-SELECT nev FROM palya WHERE id = (SELECT palyaid FROM mezo GROUP BY palyaid ORDER BY MAX(sorszam) DESC LIMIT 1);
+SELECT p.nev
+FROM palya p
+WHERE p.id = (
+    SELECT m.palyaid
+    FROM mezo m
+    GROUP BY m.palyaid
+    ORDER BY MAX(m.sorszam) DESC
+    LIMIT 1
+);
 
 -- 5. feladat: Mezőtípusok eloszlása egy adott pályán (pl. 9-es)
-SELECT tipus, COUNT(*) FROM mezo WHERE palyaid = 9 GROUP BY tipus;
+-- random: ez jo gyors ellenorzes palyankent
+SELECT m.tipus, COUNT(*) AS tipus_db
+FROM mezo m
+WHERE m.palyaid = 9
+GROUP BY m.tipus;

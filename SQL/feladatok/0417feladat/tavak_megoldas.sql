@@ -2,6 +2,7 @@
 CREATE DATABASE IF NOT EXISTS magyar_tavak;
 USE magyar_tavak;
 
+-- tbl: allovizek
 CREATE TABLE alloviz (
     id INT PRIMARY KEY,
     nev VARCHAR(100),
@@ -10,6 +11,7 @@ CREATE TABLE alloviz (
     vizgyujto DOUBLE
 );
 
+-- tbl: telepules GPS
 CREATE TABLE telepulesgps (
     id INT PRIMARY KEY,
     nev VARCHAR(100),
@@ -17,6 +19,7 @@ CREATE TABLE telepulesgps (
     szelesseg DOUBLE
 );
 
+-- tbl: kapcsolat to-many
 CREATE TABLE helykapcs (
     allovizid INT,
     gpsid INT,
@@ -26,30 +29,58 @@ CREATE TABLE helykapcs (
 
 -- Lekérdezések
 -- 2morotva
-SELECT nev, terulet FROM alloviz WHERE tipus LIKE '%morotva%' ORDER BY terulet DESC;
+SELECT a.nev, a.terulet
+FROM alloviz a
+WHERE a.tipus LIKE '%morotva%'
+ORDER BY a.terulet DESC;
 
 -- 3vizarany
-SELECT SUM(terulet) / 93036 AS vizarany FROM alloviz;
+SELECT SUM(a.terulet) / 93036 AS vizarany
+FROM alloviz a;
 
 -- 4kozepes
-SELECT nev, tipus, terulet FROM alloviz WHERE terulet BETWEEN 3 AND 10 AND vizgyujto >= 10 * terulet;
+SELECT a.nev, a.tipus, a.terulet
+FROM alloviz a
+WHERE a.terulet BETWEEN 3 AND 10
+    AND a.vizgyujto >= 10 * a.terulet;
 
 -- 5sok
-SELECT alloviz.nev, COUNT(helykapcs.gpsid) FROM alloviz 
-JOIN helykapcs ON alloviz.id = helykapcs.allovizid 
-GROUP BY alloviz.nev HAVING COUNT(helykapcs.gpsid) >= 3;
+SELECT a.nev, COUNT(h.gpsid) AS telep_db
+FROM alloviz a
+JOIN helykapcs h ON a.id = h.allovizid
+GROUP BY a.nev
+HAVING COUNT(h.gpsid) >= 3;
 
 -- 6keletnyugat
-SELECT alloviz.nev FROM alloviz 
-JOIN helykapcs ON alloviz.id = helykapcs.allovizid 
-JOIN telepulesgps ON helykapcs.gpsid = telepulesgps.id 
-GROUP BY alloviz.nev ORDER BY (MAX(hosszusag) - MIN(hosszusag)) DESC LIMIT 1;
+SELECT a.nev
+FROM alloviz a
+JOIN helykapcs h ON a.id = h.allovizid
+JOIN telepulesgps t ON h.gpsid = t.id
+GROUP BY a.nev
+ORDER BY (MAX(t.hosszusag) - MIN(t.hosszusag)) DESC
+LIMIT 1;
 
 -- 7egyegy
-SELECT a.nev, a.terulet, t.nev FROM alloviz a, helykapcs h, telepulesgps t 
-WHERE a.id=h.allovizid AND t.id=h.gpsid 
-AND h.allovizid IN (SELECT allovizid FROM helykapcs GROUP BY allovizid HAVING COUNT(gpsid)=1)
-AND h.gpsid IN (SELECT gpsid FROM helykapcs GROUP BY gpsid HAVING COUNT(allovizid)=1);
+SELECT a.nev, a.terulet, t.nev
+FROM alloviz a
+JOIN helykapcs h ON a.id = h.allovizid
+JOIN telepulesgps t ON t.id = h.gpsid
+WHERE h.allovizid IN (
+        SELECT h2.allovizid
+        FROM helykapcs h2
+        GROUP BY h2.allovizid
+        HAVING COUNT(h2.gpsid) = 1
+)
+AND h.gpsid IN (
+        SELECT h3.gpsid
+        FROM helykapcs h3
+        GROUP BY h3.gpsid
+        HAVING COUNT(h3.allovizid) = 1
+);
 
 -- 8tipus
-SELECT tipus, nev, terulet FROM alloviz WHERE tipus IS NOT NULL ORDER BY tipus, nev;
+-- random: tipus szerinti rendezes, riporthoz jo
+SELECT a.tipus, a.nev, a.terulet
+FROM alloviz a
+WHERE a.tipus IS NOT NULL
+ORDER BY a.tipus, a.nev;

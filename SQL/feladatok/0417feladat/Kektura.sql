@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS kektura DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 USE kektura;
 
+-- tbl: turaszakaszok
 CREATE TABLE szakasz (
     id INT PRIMARY KEY,
     honnan VARCHAR(100),
@@ -10,6 +11,7 @@ CREATE TABLE szakasz (
     lejtes INT
 );
 
+-- tbl: belyegzohelyek
 CREATE TABLE belyegzohely (
     id INT PRIMARY KEY,
     szakaszid INT,
@@ -20,11 +22,17 @@ CREATE TABLE belyegzohely (
 
 -- Lekérdezések
 -- Legmagasabban fekvő bélyegzőhelyek
-SELECT nev, tengerszint_feletti_magassag FROM belyegzohely 
-ORDER BY tengerszint_feletti_magassag DESC LIMIT 5;
+SELECT b.nev, b.tengerszint_feletti_magassag
+FROM belyegzohely b
+ORDER BY b.tengerszint_feletti_magassag DESC
+LIMIT 5;
 
 -- Szakaszok összesített hossza
-SELECT SUM(hossz) AS osszhossz FROM szakasz;
+SELECT SUM(s.hossz) AS osszhossz
+FROM szakasz s;
 
 -- 100 méternél nagyobb emelkedésű szakaszok
-SELECT honnan, hova FROM szakasz WHERE emelkedes > 100;
+-- random: ezek a combosabb emelkedos reszek
+SELECT s.honnan, s.hova
+FROM szakasz s
+WHERE s.emelkedes > 100;
