@@ -61,7 +61,7 @@ body {
     background-position: center;
 }
 
-#parent-b-1 {
+/* #parent-b-1 {
     background-color: blue;
 }
 
@@ -79,5 +79,36 @@ body {
     position: absolute;
     top: 50px;
     left: 50px;
+} */
+
+#parent-a {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background-color: red;
 }
 
+#parent-b-2 {
+    width: 250px;
+    height: 250px;
+    background-color: blue;
+}
+
+#parent-b-2 > div {
+    width: 125px;
+    height: 125px;
+    background-color: yellow;
+}
+
+/* Az alsó részben legyen a piros és a sárga */
+.absolute-pos {
+    position: absolute;
+    top: 250px;
+    left: 250px;
+}
+
+.absolute-pos-2 {
+    position: absolute;
+    top: 125px;
+    left: 125px;
+}
