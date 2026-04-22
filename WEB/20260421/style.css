@@ -1,0 +1,59 @@
+table {
+    width: 50vw;
+    border-collapse: collapse;
+    margin: 20px auto;
+    }
+th, td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #555;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: white;
+    color: black;
+}
+
+tbody tr:nth-child(even) {
+    background-color: blue;
+    color: white;
+}
+
+tbody tr td {
+    background-color: transparent;
+    color: inherit;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    background-color: azure;
+}
+
+#food-title {
+    width: 100%;
+    text-align: center;
+    font-size: 80px;
+    text-decoration: underline;
+    text-decoration-thickness: 8px;
+}
+
+#food-container {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.food-card {
+    width: 30%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(51, 49, 199);
+    border-radius: 20px;
+    color: white;
+}
