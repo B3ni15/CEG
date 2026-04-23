@@ -4,6 +4,7 @@
     --lg-padding: 2rem;
 
     --bg-color: #47f8f5;
+    --navbar-color: #105d9b;
 
     --sm-fs: 1.25rem;
     --md-fs: 2rem;
@@ -12,7 +13,6 @@
 
 body {
     background-color: var(--bg-color);
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     width: 100vw;
@@ -36,4 +36,31 @@ body {
 p {
     padding: var(--sm-padding);
     font-size: var(--sm-fs);
+}
+
+nav {
+    display: flex;
+    background-color: var(--navbar-color);
+    width: 100%;
+    top: 0;
+    height: 6rem;
+    position: sticky;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+nav ul {
+    display: flex;
+    gap: var(--lg-padding);
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: static;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: var(--md-fs);
 }
