@@ -1,0 +1,39 @@
+:root {
+    --sm-padding: 0.5rem;
+    --md-padding: 1rem;
+    --lg-padding: 2rem;
+
+    --bg-color: #47f8f5;
+
+    --sm-fs: 1.25rem;
+    --md-fs: 2rem;
+    --lg-fs: 3rem;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.book-title {
+    width: 100%;
+    text-align: center;
+    padding: var(--md-padding) 0 var(--lg-padding) 0;
+    margin: 0;
+    font-size: var(--lg-fs);
+}
+
+.chapter-title {
+    padding: var(--md-padding);
+    padding-left: var(--lg-padding);
+    font-size: var(--md-fs);
+}
+
+p {
+    padding: var(--sm-padding);
+    font-size: var(--sm-fs);
+}
