@@ -1,0 +1,125 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	color: #222;
+}
+
+.site-header {
+	background-color: #222;
+	color: #fff;
+	padding: 16px 22px;
+}
+
+.site-header h1 {
+	font-size: 36px;
+}
+
+.intro {
+	text-align: center;
+	padding: 34px 16px 28px;
+}
+
+.intro h2 {
+	font-size: 52px;
+	margin-bottom: 8px;
+}
+
+.intro p {
+	font-size: 30px;
+	color: #555;
+}
+
+.products-grid {
+	width: 96%;
+	margin: 0 auto 18px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 18px;
+}
+
+.product-card {
+	background-color: #fff;
+	border-radius: 8px;
+	text-align: center;
+	padding: 12px 12px 14px;
+}
+
+.product-card img {
+	width: 100%;
+	height: 145px;
+	object-fit: cover;
+	display: block;
+	border-radius: 2px;
+}
+
+.product-card h3 {
+	margin-top: 12px;
+	margin-bottom: 8px;
+	font-size: 34px;
+}
+
+.price {
+	color: #555;
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+
+.product-card button {
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 10px 16px;
+	font-size: 22px;
+	cursor: pointer;
+}
+
+.product-card button:hover {
+	background-color: #0056b3;
+}
+
+@media (max-width: 1000px) {
+	.products-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.intro h2 {
+		font-size: 42px;
+	}
+
+	.intro p {
+		font-size: 24px;
+	}
+
+	.product-card h3 {
+		font-size: 28px;
+	}
+
+	.price {
+		font-size: 24px;
+	}
+}
+
+@media (max-width: 600px) {
+	.products-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.site-header h1 {
+		font-size: 28px;
+	}
+
+	.intro h2 {
+		font-size: 34px;
+	}
+
+	.intro p {
+		font-size: 20px;
+	}
+}
