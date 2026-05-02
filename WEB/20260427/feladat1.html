@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="feladat1.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!--1. FEladat: footer készítés
+    1.a Szürke navbar-t 3 gombbal:
+    - Processzorok
+    -Videókártyák
+    - Memória
+    1.b Készítsünk minden katergóriának egy div-et "catergory" osztállyal.
+        Tartalmazzon egy h1-et és egy grid container-t.
+        2 oszlopban jelenítsünk meg a "component-card" osztályú div-jeinket.
+    1.c Minden "component-card" tartalmazzon egy nevet, képet, utolsó árat, utolsó ár dátumát.
+        Tartalmazzon egy vásárlás gombot ami legyen szürke.
+    1.d Készítsünk egy footer-t az oldal aljára. Csak akkor látszódjon ha a felhasználó az oldal aljára ér.
+        A navbar mindig látható.
+    1.e Az oldal minden szövege a belinkelt Inter betűtípust használja.-->
+
+    <nav>
+        <a href="#processzor"><button>processzorok</button></a>
+        <a href="#gpu"><button>videókártyák</button></a>
+        <a href="#ram"><button>memória</button></a>
+    </nav>
+    <div id="processzor" class="category">
+        <h1>Processzorok</h1>
+        <div class="category-container">
+            <div class="component-card">
+                <h1>AMD Ryzen 5 5600X</h1>
+                <img src="https://media.icdn.hu/product/2020-11/663952/2258609_ryzen-5-5600x-3-70ghz-am4-oem-100-000000065-2.webp"
+                    alt="">
+                <span>Utolsó ismert ár: 65 000 Ft</span>
+                <span>(2026.04.20.)</span>
+                <button>Vásárlás</button>
+            </div>
+        </div>
+        <div class="category-container">
+            <div class="component-card">
+                <h1>Intel Core i5-13600K</h1>
+                <img src="https://media.icdn.hu/product/2022-09/833187/2004180_intel-core-i5-13600k-260ghz-lga-1700-box.webp"
+                    alt="">
+                <span>Utolsó ismert ár: 120 000 Ft</span>
+                <span>(2026.04.22.)</span>
+                <button>Vásárlás</button>
+            </div>
+        </div>
+        <div class="category-container">
+            <div class="component-card">
+                <h1>AMD Ryzen 7 5800X</h1>
+                <img src="https://tpucdn.com/cpu-specs/images/chips/2362-front.jpg" alt="">
+                <span>Utolsó ismert ár: 95 000 Ft</span>
+                <span>(2026.04.18.)</span>
+                <button>Vásárlás</button>
+            </div>
+            <div class </div>="category-container"><div class="component-card">
+                    <h1>Intel Core i7-12700K</h1>
+                    <img src="https://firstshop.hu/img/o/192463-f6775.png" alt="">
+                    <span>Utolsó ismert ár: 140 000 Ft Ft</span>
+                    <span>(2026.04.21.)</span>
+                    <button>Vásárlás</button>
+                </div>
+                <div class </div>="category">
+                    <h1>Videókártyák</h1>
+                    <div class="category-container">
+                        <div class="component-card">
+                            <h1>NVIDIA RTX 4060</h1>
+                            <img src="https://p1.akcdn.net/full/1167302634.gigabyte-geforce-rtx-4060-gaming-oc-8gb-gddr6-n4060gaming-oc-8gd.jpg"
+                                alt="">
+                            <span>Utolsó ismert ár: 150 000 FT</span>
+                            <span>(2026.04.23)</span>
+                            <button>Vásárlás</button>
+                        </div>
+                    </div>
+                    <div class="category-container">
+                        <div class="component-card">
+                            <h1>NVIDIA RTX 4070</h1>
+                            <img src="https://s13emagst.akamaized.net/products/65264/65263104/images/res_c7cea2fd64f0ba2390b54ee1a4a0a5ec.jpg"
+                                alt="">
+                            <span>Utolsó ismert ár: 220 000 FT</span>
+                            <span>(2026.04.25)</span>
+                            <button>Vásárlás</button>
+                        </div>
+                    </div>
+                    <div class="category-container">
+                        <div class="component-card">
+                            <h1>AMD Radeon RX 7600</h1>
+                            <img src="https://s13emagst.akamaized.net/products/57170/57169745/images/res_54355db52788e4c004646dc8a69c6288.jpg"
+                                alt="">
+                            <span>Utolsó ismert ár: 130 000 FT</span>
+                            <span>(2026.04.19)</span>
+                            <button>Vásárlás</button>
+                        </div>
+                    </div>
+                    <div class="category-container">
+                        <div class="component-card">
+                            <h1>AMD Radeon RX 7800 XT</h1>
+                            <img src="https://media.icdn.hu/product/2024-01/958054/3150191_asus-dual-rx7800xt-o16g-radeon-rx-7800-xt-16gb-gddr6-oc-pcie.webp"
+                                alt="">
+                            <span>Utolsó ismert ár: 210 000 FT</span>
+                            <span>(2026.04.24)</span>
+                            <button>Vásárlás</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="category">
+                    <h1>Memória</h1>
+                    <div class="category-container">
+                        <div class="component-card">
+                            <h1>Corsair Vengeance 16GB</h1>
+                            <img src="https://p1.akcdn.net/full/377453999.corsair-vengeance-lpx-16gb-ddr4-2400mhz-cmk16gx4m1a2400c14.jpg"
+                                alt="">
+                            <span>Utolsó ismert ár: 25 000 Ft</span>
+                            <span>(2026.04.17)</span>
+                            <button>Vásárlás</button>
+                        </div>
+                    </div>
+                    <div class="category-container">
+                        <div class="component-card">
+                            <h1>Kingston Fury 32GB</h1>
+                            <img src="https://p1.akcdn.net/full/837765435.kingston-fury-beast-32gb-2x16gb-ddr4-3200mhz-kf432c16bb1k2-32.jpg"
+                                alt="">
+                            <span>Utolsó ismert ár: 50 000 Ft</span>
+                            <span>(2026.04.20)</span>
+                            <button>Vásárlás</button>
+                        </div>
+                    </div>
+                    <div class="category-container">
+                        <div class="component-card">
+                            <h1>G.Skill Ripjaws 16GB</h1>
+                            <img src="https://p1.akcdn.net/full/377472967.g-skill-ripjaws-v-16gb-2x8gb-ddr4-3200mhz-f4-3200c16d-16gvkb.jpg"
+                                alt="">
+                            <span>Utolsó ismert ár: 24 000 Ft</span>
+                            <span>(2026.04.18)</span>
+                            <button>Vásárlás</button>
+                        </div>
+                    </div>
+                    <div class="category-container">
+                        <div class="component-card">
+                            <h1>Crucial 32GB DDR5</h1>
+                            <img src="https://p1.akcdn.net/full/1170809559.crucial-32gb-ddr5-5600mhz-ct32g56c46u5.jpg"
+                                alt="">
+                            <span>Utolsó ismert ár: 55 000 Ft</span>
+                            <span>(2026.04.22)</span>
+                            <button>Vásárlás</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>@ Techshop Kft. 2026</footer>
+</body>
+
+</html>
